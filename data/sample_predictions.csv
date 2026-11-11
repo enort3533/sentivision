@@ -1,0 +1,9 @@
+text,sentiment,predicted_sentiment,confidence,prob_negative,prob_neutral,prob_positive
+The product arrived quickly and works like a charm. Very satisfied!,positive,positive,0.9879,0.0035,0.0086,0.9879
+Extremely disappointed with the customer service and poor quality.,negative,negative,0.9336,0.9336,0.0584,0.0081
+The parcel was delivered to the front door yesterday afternoon.,neutral,neutral,0.7715,0.0064,0.7715,0.2221
+Absolutely love this item! Best purchase I have made this year.,positive,positive,0.9873,0.005,0.0077,0.9873
+Broken upon arrival and no refund was offered.,negative,negative,0.8593,0.8593,0.1326,0.0081
+The package contains three batteries and a charging cable.,neutral,neutral,0.9003,0.007,0.9003,0.0927
+Incredible build quality and fast shipping. 5 stars!,positive,positive,0.9779,0.0075,0.0146,0.9779
+"Worst experience ever, complete waste of money.",negative,negative,0.9473,0.9473,0.0433,0.0094

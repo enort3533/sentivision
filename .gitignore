@@ -1,0 +1,60 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyo
+*.pyd
+.Python
+*.egg
+*.egg-info/
+dist/
+build/
+eggs/
+parts/
+var/
+sdist/
+develop-eggs/
+.installed.cfg
+lib/
+lib64/
+.eggs/
+
+# Virtual environments
+.venv/
+venv/
+ENV/
+env/
+
+# Environment variables
+.env
+
+# Model cache
+model_cache/
+
+# Database
+sentivision.db
+*.db
+
+# Reports (generated)
+reports/
+
+# Datasets (downloaded CSVs — keep .gitkeep)
+data/datasets/*.csv
+data/datasets/*_metadata.json
+
+# Node / Frontend
+node_modules/
+dist/
+.DS_Store
+*.local
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
