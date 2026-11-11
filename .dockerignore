@@ -1,0 +1,15 @@
+.git
+.venv
+**/.venv
+frontend
+cli
+data
+docs
+tests
+model_cache
+reports
+.pytest_cache
+__pycache__
+*.py[cod]
+*.db
+.env

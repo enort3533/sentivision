@@ -128,3 +128,4 @@ The CLI (`cli/cli.py`) provides independent evaluation and prediction capabiliti
    - Saves timestamped evaluation bundles under `reports/evaluation_YYYYMMDD_HHMMSS/`.
 3. **`download-dataset`**:
    - Automatically downloads standard public benchmark datasets (e.g. `tweet_eval`) via Hugging Face `datasets` and standardizes schema to `[text, sentiment]`.
+

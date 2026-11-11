@@ -52,8 +52,8 @@ export function OverviewPage() {
   useEffect(() => {
     Promise.all([getHistory(), getHealth()])
       .then(([h, hth]) => {
-        setHistory(h)
-        setHealth(hth)
+        setHistory(Array.isArray(h) ? h : [])
+        setHealth(hth && typeof hth === 'object' ? hth : null)
       })
       .catch(() => {})
       .finally(() => setLoading(false))
@@ -440,3 +440,4 @@ export function OverviewPage() {
     </div>
   )
 }
+

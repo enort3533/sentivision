@@ -1,0 +1,24 @@
+services:
+  - type: web
+    name: sentivision-api
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    dockerContext: .
+    plan: standard
+    region: oregon
+    healthCheckPath: /api/health
+    disk:
+      name: sentivision-data
+      mountPath: /var/data
+      sizeGB: 5
+    envVars:
+      - key: DATABASE_URL
+        value: sqlite:////var/data/sentivision.db
+      - key: MODEL_CACHE_DIR
+        value: /var/data/model_cache
+      - key: EASYOCR_MODULE_PATH
+        value: /var/data/easyocr
+      - key: DEVICE
+        value: cpu
+      - key: CORS_ORIGINS
+        value: '["https://sentivision-beryl.vercel.app"]'

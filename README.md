@@ -23,6 +23,7 @@
 ## 2. Technology Stack
 
 ### Frontend
+
 - **Framework**: React 18 with TypeScript & Vite
 - **Styling**: Tailwind CSS, PostCSS, Autoprefixer
 - **UI & Icons**: Lucide React icons, custom accessible UI primitives
@@ -31,18 +32,21 @@
 - **HTTP Client**: Axios with multipart form handling
 
 ### Backend
+
 - **Framework**: FastAPI (Asynchronous Python 3.11+)
 - **Validation**: Pydantic v2 & Pydantic-Settings
 - **Server**: Uvicorn ASGI
 - **Database**: SQLite with SQLAlchemy ORM
 
 ### Machine Learning & OCR
+
 - **Pretrained NLP Model**: `cardiffnlp/twitter-roberta-base-sentiment-latest` via Hugging Face Transformers & PyTorch
 - **OCR Engine**: EasyOCR (PyTorch CRAFT + BiLSTM CTC)
 - **Computer Vision**: OpenCV (headless) and Pillow (PIL)
 - **Evaluation**: Scikit-Learn, Pandas, NumPy, Matplotlib, Seaborn
 
 ### CLI Tools
+
 - **CLI Framework**: Typer with Rich terminal styling
 - **Dataset Integration**: Hugging Face `datasets` library
 
@@ -76,6 +80,7 @@ For complete technical specifications, review [`docs/architecture.md`](file:///U
 ## 4. Installation & Setup
 
 ### Prerequisites
+
 - Python 3.11+
 - Node.js 18+ and npm 9+
 - Git
@@ -135,6 +140,21 @@ Open your browser at:
 
 The Vite dev server automatically proxies API requests to `http://localhost:8000/api`.
 
+## Deploying the frontend to Vercel
+
+The Vercel configuration in the repository deploys the Vite frontend as a static site. The FastAPI backend cannot be included in this Vercel deployment: its PyTorch, Transformers, and EasyOCR dependencies and model downloads are too large and long-running for Vercel Functions. Deploy the backend separately on a Python/container host that supports those dependencies and persistent storage.
+
+1. Import this repository into Vercel. The root `vercel.json` configures the frontend build and SPA routes.
+2. Deploy the FastAPI backend separately, then set the Vercel project environment variable `VITE_API_BASE_URL` to the backend URL ending in `/api` (for example, `https://your-backend.example.com/api`).
+3. On the backend host, set `CORS_ORIGINS` to a JSON array containing your Vercel site origin, such as `["https://your-app.vercel.app"]`. Include the preview origins you intend to use.
+4. Redeploy the frontend after setting `VITE_API_BASE_URL`; Vite embeds it at build time.
+
+The backend's SQLite database and downloaded model files need writable persistent storage. Do not rely on an ephemeral serverless filesystem for analysis history or model caching. Configure an external persistent database/storage if the chosen backend host does not provide persistent disks.
+
+### Deploying the backend on Render
+
+The repository includes a Docker image and Render Blueprint in `Dockerfile` and `render.yaml`. Push the repository to GitHub, then create a Blueprint in Render from that repository and apply the `sentivision-api` service. The Blueprint uses a persistent disk for SQLite and model/OCR caches; its Standard instance and disk are paid Render resources. The first model/OCR downloads and first inference can take several minutes. Once the service is live, set Vercel's `VITE_API_BASE_URL` to `https://sentivision-api.onrender.com/api` (or the actual Render service URL) and redeploy the frontend.
+
 ---
 
 ## 7. Command-Line Interface (CLI) Usage
@@ -148,6 +168,7 @@ python cli/cli.py predict --text "The product quality is superb! Highly recommen
 ```
 
 **Output:**
+
 ```
 ╭──────────────────────────────────────────────────╮
 │        SENTIVISION — SENTIMENT PREDICTION        │
@@ -159,8 +180,8 @@ Predicted Sentiment: POSITIVE
 Confidence: 96.8%
 
 Class Probabilities:
-  Negative     0.8%  
-  Neutral      2.4%  
+  Negative     0.8%
+  Neutral      2.4%
   Positive    96.8%  ███████████████████
 ```
 
@@ -184,6 +205,7 @@ python cli/cli.py download-dataset --source tweet_eval --split test
 ```
 
 This downloads the benchmark split, maps the labels into `negative`, `neutral`, and `positive`, and writes:
+
 - `data/datasets/tweet_eval_test.csv`
 - `data/datasets/tweet_eval_test_metadata.json` (provenance, license, sample count)
 
@@ -245,16 +267,16 @@ Every evaluation automatically generates a timestamped report folder under `repo
 
 ## 11. REST API Documentation
 
-| Method | Route | Description |
-|---|---|---|
-| `GET` | `/api/health` | Health check, model status, and OCR status |
-| `GET` | `/api/model/info` | Loaded model identifier, labels, and device |
-| `POST` | `/api/analyze/text` | Plain text sentiment classification |
-| `POST` | `/api/analyze/image` | Upload screenshot -> OCR -> segmentation -> sentiment |
-| `POST` | `/api/analyze/batch` | Upload up to 20 screenshots for batch analysis |
-| `POST` | `/api/evaluate` | Upload labelled CSV to compute evaluation metrics |
-| `GET` | `/api/history` | Retrieve historical analysis records |
-| `DELETE` | `/api/history/{id}` | Delete a specific analysis record |
+| Method   | Route                | Description                                           |
+| -------- | -------------------- | ----------------------------------------------------- |
+| `GET`    | `/api/health`        | Health check, model status, and OCR status            |
+| `GET`    | `/api/model/info`    | Loaded model identifier, labels, and device           |
+| `POST`   | `/api/analyze/text`  | Plain text sentiment classification                   |
+| `POST`   | `/api/analyze/image` | Upload screenshot -> OCR -> segmentation -> sentiment |
+| `POST`   | `/api/analyze/batch` | Upload up to 20 screenshots for batch analysis        |
+| `POST`   | `/api/evaluate`      | Upload labelled CSV to compute evaluation metrics     |
+| `GET`    | `/api/history`       | Retrieve historical analysis records                  |
+| `DELETE` | `/api/history/{id}`  | Delete a specific analysis record                     |
 
 ---
 
@@ -269,6 +291,7 @@ pytest tests/ -v
 ```
 
 Expected test coverage:
+
 - `test_sentiment.py`: Positive, negative, neutral, empty, long text, dynamic label mappings, batch inference.
 - `test_ocr.py`: Valid images, corrupted bytes, size limits, contrast enhancement, proximity line grouping.
 - `test_api.py`: FastAPI endpoints (`/api/health`, `/api/analyze/text`, `/api/model/info`, `/api/history`).

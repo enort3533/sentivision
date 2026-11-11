@@ -1,0 +1,16 @@
+.git
+.venv
+**/.venv
+backend
+cli
+data
+docs
+tests
+model_cache
+reports
+.pytest_cache
+__pycache__
+sentivision.db
+*.db
+frontend/node_modules
+frontend/dist

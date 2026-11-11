@@ -80,3 +80,4 @@ export function downloadCsv(rows: Record<string, unknown>[], filename: string) {
   a.click()
   URL.revokeObjectURL(url)
 }
+

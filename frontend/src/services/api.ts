@@ -9,7 +9,10 @@ import type {
   ModelInfo,
 } from '@/types'
 
-const api = axios.create({ baseURL: '/api', timeout: 180000 })
+const api = axios.create({
+  baseURL: import.meta.env.VITE_API_BASE_URL || '/api',
+  timeout: 180000,
+})
 
 export const analyzeText = async (text: string): Promise<SentimentResult> => {
   const { data } = await api.post<SentimentResult>('/analyze/text', { text })
@@ -77,3 +80,4 @@ export const getModelInfo = async (): Promise<ModelInfo> => {
   const { data } = await api.get<ModelInfo>('/model/info')
   return data
 }
+
